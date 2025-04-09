@@ -364,8 +364,9 @@ export function LoginPopup() {
   const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
   const [isSendingOTP, setIsSendingOTP] = useState<boolean>(false); // Disable "Get Code"
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);   // Disable "Login"
-  const { sendOTP, loginWithOTP, isLoggedIn } = useAuth();
+  const { sendOTP, loginWithOTP, isLoggedIn, refreshChats } = useAuth();
   const router = useRouter();
+
 
   // Redirect if already logged in
   if (isLoggedIn) {
@@ -401,6 +402,7 @@ export function LoginPopup() {
       await loginWithOTP(email, otp);
       router.push('/'); // Redirect on success
       toast.success('Logged in successfully');
+      await refreshChats();
     } catch (error) {
       toast('Login failed: ' + (error instanceof Error ? error.message : 'Unknown error'));
     } finally {
