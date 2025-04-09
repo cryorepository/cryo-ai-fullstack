@@ -78,6 +78,7 @@ export function SidebarPopover() {
 }*/
 
 "use client";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -105,6 +106,25 @@ export function SidebarDropdown() {
     }
   };
 
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  // Check viewport width on mount and resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 536);
+    };
+
+    // Set initial value
+    handleResize();
+
+    // Add resize listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup listener on unmount
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+
   return (
     <>
       {isLoggedIn ? (
@@ -124,7 +144,7 @@ export function SidebarDropdown() {
               <ChevronsUpDown />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent side="right" align="end" className="w-56">
+          <DropdownMenuContent side={isSmallScreen ? "top" : "right"} align={isSmallScreen ? "start" : "end"} className="w-56">
             <div className="flex items-center gap-2 px-2 mb-3 mt-2">
               <Avatar className="rounded-lg">
                 <AvatarImage src="https://www.cryorepository.com/web-app-manifest-192x192.png" />
