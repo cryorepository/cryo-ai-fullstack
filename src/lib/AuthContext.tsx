@@ -154,6 +154,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     email: null,
     chats: null,
   });
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   // Check auth status on mount
   useEffect(() => {
@@ -163,7 +164,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Fetch user data including chats
   const checkAuth = async () => {
     try {
-      const response = await fetch('http://localhost:3001/user', {
+      const response = await fetch(`${apiUrl}/user`, {
         credentials: 'include',
       });
       if (response.ok) {
@@ -183,7 +184,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Send OTP to email
   const sendOTP = async (email: string) => {
     try {
-      const response = await fetch('http://localhost:3001/login', {
+      const response = await fetch(`${apiUrl}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -201,7 +202,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Login with OTP
   const loginWithOTP = async (email: string, otp: string) => {
     try {
-      const response = await fetch('http://localhost:3001/verifyOTP', {
+      const response = await fetch(`${apiUrl}/verifyOTP`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp }),
@@ -228,7 +229,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Logout
   const logout = async () => {
     try {
-      await fetch('http://localhost:3001/logout', {
+      await fetch(`${apiUrl}/logout`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -241,7 +242,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Refresh chats
   const refreshChats = async () => {
     try {
-      const response = await fetch('http://localhost:3001/user', {
+      const response = await fetch(`${apiUrl}/user`, {
         credentials: 'include',
       });
       if (response.ok) {

@@ -217,10 +217,12 @@ interface ArticleData {
   chatHistory: { role: "user" | "assistant"; content: string; timestamp: string; _id: string }[];
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 // Fetch chat data from the server
 async function getChatData(chatID: string): Promise<ArticleData | null> {
   try {
-    const res = await fetch(`http://localhost:3001/fetchChat/${chatID}`, {
+    const res = await fetch(`${apiUrl}/${chatID}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -242,35 +244,9 @@ async function getChatData(chatID: string): Promise<ArticleData | null> {
   }
 }
 
-/*
-// Send a message to the server
-async function sendMessage(prompt: string, chatID: string): Promise<{ response: string; chatID: string } | null> {
-  try {
-    const res = await fetch("http://localhost:3001/sendMessage", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ prompt, chatID }),
-    });
-
-    if (!res.ok) {
-      throw new Error(`Send message failed with status: ${res.status}`);
-    }
-
-    const data = await res.json();
-    console.log("Send message response:", data);
-    return data;
-  } catch (error) {
-    console.error("Error sending message:", error);
-    return null;
-  }
-}*/
-
 async function sendMessage(prompt: string, chatID: string): Promise<SendMessageResponse> {
   try {
-    const res = await fetch("http://localhost:3001/sendMessage", {
+    const res = await fetch(`${apiUrl}/sendMessage`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
