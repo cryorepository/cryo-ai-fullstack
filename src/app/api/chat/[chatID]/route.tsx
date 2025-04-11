@@ -15,7 +15,8 @@ interface Chat {
   chatID: string;
   chatTitle: string;
   chatCreationDate: Date;
-  chatHistory: any[];
+  //chatHistory: any[];
+  chatHistory: { role: string; content: string; timestamp: Date }[]; // Specific type instead of any[]
 }
 
 // Define the User schema type
@@ -24,7 +25,7 @@ interface User {
   chats: Chat[];
 }
 
-export async function GET(request: Request, { params }: { params: { chatID: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ chatID: string }> }) {
   await dbConnect(); // Ensure DB connection
 
   const { chatID } = await params;
@@ -73,9 +74,9 @@ export async function GET(request: Request, { params }: { params: { chatID: stri
       chatHistory: chat.chatHistory,
     }, { status: 200 });
 
-  } catch (error: any) {
-    console.error('Get chat error:', error.message);
-    if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
+  } catch (error: unknown) {
+    console.error('Get chat error:', error instanceof Error ? error.message : String(error));
+    if (error instanceof jwt.JsonWebTokenError || error instanceof jwt.TokenExpiredError) {
       return NextResponse.json({ error: 'Invalid or expired token' }, { status: 401 });
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

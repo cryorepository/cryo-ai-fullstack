@@ -217,8 +217,6 @@ interface ArticleData {
   chatHistory: { role: "user" | "assistant"; content: string; timestamp: string; _id: string }[];
 }
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
 // Fetch chat data from the server
 async function getChatData(chatID: string): Promise<ArticleData | null> {
   try {

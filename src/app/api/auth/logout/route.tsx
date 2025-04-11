@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers'; // For cookie management
 
-export async function GET(request: Request) {
+export async function GET() {
   // Access the cookie store
   const cookieStore = await cookies();
 

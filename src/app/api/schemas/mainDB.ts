@@ -31,7 +31,7 @@ interface IMainDB extends Document {
   optimal_conc: string;
   structure_image: string;
   cas_number: string;
-  pricing_info: any[]; // You might want to define a more specific type
+  pricing_info: string[]; // You might want to define a more specific type
   safety_document_sheet: string;
   written_by: string[];
   raw_text: string;
