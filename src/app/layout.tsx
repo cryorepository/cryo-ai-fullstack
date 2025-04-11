@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/lib/theme-provider"
 import { AuthProvider } from '@/lib/AuthContext'
 import Image from 'next/image'
 import type { Metadata } from 'next'
+import { Analytics } from "@vercel/analytics/react"
 
 
 const geistSans = Geist({
@@ -62,6 +63,7 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
+    <Analytics />
     </AuthProvider>
   );
 }
