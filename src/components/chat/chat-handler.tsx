@@ -222,7 +222,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 // Fetch chat data from the server
 async function getChatData(chatID: string): Promise<ArticleData | null> {
   try {
-    const res = await fetch(`${apiUrl}/fetchChat/${chatID}`, {
+    const res = await fetch(`/api/chat/${chatID}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -246,7 +246,7 @@ async function getChatData(chatID: string): Promise<ArticleData | null> {
 
 async function sendMessage(prompt: string, chatID: string): Promise<SendMessageResponse> {
   try {
-    const res = await fetch(`${apiUrl}/sendMessage`, {
+    const res = await fetch(`/api/sendMessage`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
